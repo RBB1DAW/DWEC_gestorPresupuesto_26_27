@@ -90,6 +90,13 @@ function CrearGasto(descripcion, valor, fecha, ...etiquetas) { //...permite no s
 Fecha: ${new Date(this.fecha).toLocaleString()}
 Etiquetas:
 ${textoEtiquetas}`;}
+
+    this.actualizarFecha = function (fecha){
+        let fechaTimestamp = Date.parse(fecha)
+        if (!isNaN(fechaTimestamp)) {
+            this.fecha = fechaTimestamp;
+        }
+    }
 }
 
 function listarGastos(){
