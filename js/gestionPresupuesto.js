@@ -103,7 +103,11 @@ function borrarGasto(id){
 
 
 function calcularTotalGastos(){
-
+    let total = 0
+    for (let gasto of gastos){
+        total = total + gasto.valor
+    }
+    return total;
 }
 
 function calcularBalance(){
