@@ -97,6 +97,16 @@ ${textoEtiquetas}`;}
             this.fecha = fechaTimestamp;
         }
     }
+
+     this.borrarEtiquetas = function (...etiquetasABorrar) {
+        for (let etiqueta of etiquetasABorrar) {
+            let posicion = this.etiquetas.indexOf(etiqueta);
+
+            if (posicion !== -1) {
+                this.etiquetas.splice(posicion, 1);
+            }
+        }
+    };
 }
 
 function listarGastos(){
