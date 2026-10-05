@@ -3,8 +3,8 @@
 
 // TODO: Variable global
 let presupuesto = 0
-let gastos = []
-let idGasto = 0
+let gastos = [];
+let idGasto = 0;
 
 function actualizarPresupuesto(numero) {
     // TODO
@@ -92,8 +92,13 @@ function anyadirGasto(gasto){
 }
 
 
-function borrarGasto(){
-
+function borrarGasto(id){
+    for(let i = 0; i <gastos.length; i++){
+        if(gastos[i].id === id){
+            gastos.splice(i, 1);
+            return; //este return hace que termine cuando lo encuentre (si lo encuentra)
+        }
+    }
 }
 
 
