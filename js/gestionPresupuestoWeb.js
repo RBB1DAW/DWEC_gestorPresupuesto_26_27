@@ -1,64 +1,93 @@
-function mostrarDatoEnId(idElemento, valor){
-    document.getElementById(idElemento).textContent = valor
+'use strict';
+
+function mostrarDatoEnId(idElemento, valor) {
+    const elemento = document.getElementById(idElemento);
+    if (elemento) {
+        elemento.textContent = valor;
+    }
 }
 
-function mostrarGastoWeb(idElemento, gasto){
-    let divGasto = document.createElement("div");
-    divGasto.className = "gasto";
-    document.getElementById(idElemento).append(divGasto);
-
-    let divGastoDescripcion = document.createElement('div');
-    divGastoDescripcion.className = "gasto-descripcion"
-    divGastoDescripcion.textContent = gasto.descripcion
-    divGasto.append(divGastoDescripcion)
-
-    let divGastoFecha = document.createElement("div");
-    divGastoFecha.className = "gasto-fecha";
-    divGastoFecha.textContent = gasto.divGastoFecha
-    divGasto.append(divGastoFecha)
-
-    let divGastoValor = document.createElement("div");
-    divGastoValor.className = "gasto-valor";
-    divGastoValor.textContent = gasto.valor;
-    divGasto.append(divGastoValor)
-
-    let divGastoEtiquetas = document.createElement("div")
-    divGastoEtiquetas.className = "gasto-etiquetas";
-    divGasto.append(divGastoEtiquetas);
-
-    array.forEach(gasto => {
-        let spanEtiquetas = document.createElement("span");
-        spanEtiquetas.className = "gasto-etiquetas-etiqueta";
-        spanEtiquetas.textcontent = gasto.etiqueta
-        divGastoEtiquetas.append(spanEtiquetas)
-    })
-
-}
-
-function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo){
-    let contenedor = document.getElementById(idElemento);
-
-    let divAgrupacion = document.createElement("div");
-    divAgrupacion.classList.add("agrupacion");
-
-    let h1Titulo = document.createElement("h1");
-    h1Titulo.textContent = "Gastos agrupados por PERIODO";
-    divAgrupacion.append(h1Titulo)
-
-    for (let [clave, valor] of Object.entries(agrup)) {
-        let divDato = document.createElement("div");
-        divDato.classList.add("agrupacion-dato");
-
-        let spanClave = document.createElement("span");
-        spanClave.classList.add("agrupacion-dato-clave");
-        spanClave.textContent = clave
-        divDato.append(spanClave);
-
-        let spanValor = document.createElement("span");
-        spanValor.classList.add("agrupacion-dato-valor");
-        divDato.append(spanValor);
+function mostrarGastoWeb(idElemento, gasto) {
+    const contenedor = document.getElementById(idElemento);
+    if (!contenedor) {
+        return;
     }
 
-    contenedor.append(divAgrupacion);
+    const divGasto = document.createElement('div');
+    divGasto.classList.add('gasto');
 
+    const divDescripcion = document.createElement('div');
+    divDescripcion.classList.add('gasto-descripcion');
+    divDescripcion.textContent = gasto.descripcion;
+    divGasto.append(divDescripcion);
+
+    const divFecha = document.createElement('div');
+    divFecha.classList.add('gasto-fecha');
+    divFecha.textContent = new Date(gasto.fecha).toLocaleDateString();
+    divGasto.append(divFecha);
+
+    const divValor = document.createElement('div');
+    divValor.classList.add('gasto-valor');
+    divValor.textContent = gasto.valor;
+    divGasto.append(divValor);
+
+    const divEtiquetas = document.createElement('div');
+    divEtiquetas.classList.add('gasto-etiquetas');
+    for (const etiqueta of gasto.etiquetas || []) {
+        const span = document.createElement('span');
+        span.classList.add('gasto-etiquetas-etiqueta');
+        span.textContent = etiqueta;
+        divEtiquetas.append(span);
+    }
+    divGasto.append(divEtiquetas);
+
+    contenedor.append(divGasto);
 }
+
+function mostrarGastosAgrupadosWeb(idElemento, agrup, periodo) {
+    const elemento = document.getElementById(idElemento);
+
+    const divAgrupacion = document.createElement('div');
+    divAgrupacion.setAttribute('class', 'agrupacion');
+    elemento.append(divAgrupacion);
+
+    let mensaje = "";
+
+    if (periodo === "dia" || periodo === "día") {
+        mensaje = "Gastos agrupados por día";
+    }
+    else if (periodo === "anyo" || periodo === "año") {
+        mensaje = "Gastos agrupados por año";
+    }
+    else {
+        mensaje = "Gastos agrupados por mes";
+    }
+
+    const h1 = document.createElement('h1');
+    h1.textContent = mensaje;
+    divAgrupacion.append(h1);
+
+    for (let [clave, valor] of Object.entries(agrup)) {
+        const divAgrupacionDato = document.createElement('div');
+        divAgrupacionDato.setAttribute('class', 'agrupacion-dato');
+        divAgrupacion.append(divAgrupacionDato);
+
+        const spanAgrupacionClave = document.createElement('span');
+        spanAgrupacionClave.setAttribute('class', 'agrupacion-dato-clave');
+        spanAgrupacionClave.textContent = clave + ": ";
+        divAgrupacionDato.append(spanAgrupacionClave);
+
+        const spanAgrupacionValor = document.createElement('span');
+        spanAgrupacionValor.setAttribute('class', 'agrupacion-dato-valor');
+        spanAgrupacionValor.textContent = valor;
+        divAgrupacionDato.append(spanAgrupacionValor);
+    }
+}
+
+
+export{
+    mostrarDatoEnId,
+    mostrarGastosAgrupadosWeb,
+    mostrarGastoWeb
+}
+
